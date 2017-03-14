@@ -1,0 +1,14 @@
+Script started on Sun Mar 12 20:15:48 2017
+[?1034hbash-3.2$ ls
+IdeaProjects.iml	chainexception		javaminibase.iml
+META-INF		diskmgr			lib
+Makefile		global			phase2
+README.md		heap			tests
+btree			index			typescript
+bufmgr			iterator		zindex
+catalog			javadoc			ztree
+bash-3.2$ 
+bash-3.2$ exit
+exit
+
+Script done on Sun Mar 12 20:17:09 2017
