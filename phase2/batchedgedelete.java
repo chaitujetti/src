@@ -5,6 +5,7 @@ import diskmgr.*;
 import global.Descriptor;
 import global.EID;
 import global.GlobalConst;
+import global.SystemDefs;
 import heap.*;
 
 import java.io.BufferedReader;
@@ -21,14 +22,14 @@ import java.util.List;
 public class batchedgedelete implements GlobalConst{
     public batchedgedelete() { }
 
-    static boolean edgedelete(String filename,String dbname)
+    static boolean edgedelete(String filename, String dbname, SystemDefs systemdef)
             throws Exception {
         int[] res = new int[]{0, 0, 0, 0};
         boolean status = false;
-        GraphDB phase2 = new GraphDB(0);
-        phase2.openDB(dbname, 1000);
-        EID edgeId = new EID();
-        EdgeHeapfile ehf = phase2.getEhf();
+//        GraphDB phase2 = new GraphDB(0);
+//        phase2.openDB(dbname, 1000);
+//        EID edgeId = new EID();
+//        EdgeHeapfile ehf = phase2.getEhf();
         Edge scanned_edge;
         int delCount = 0;
 
@@ -44,7 +45,7 @@ public class batchedgedelete implements GlobalConst{
         for (int i = 0; i < content.size(); i++) {
             String[] temp = content.get(i).split(" ");
             String edgeLabel = temp[2];
-            EScan edgeScan = ehf.openScan();
+            EScan edgeScan = systemdef.JavabaseDB.getEhf().openScan();
             EID eid = new EID();
             EID eidToDelete = new EID();
 
@@ -56,7 +57,7 @@ public class batchedgedelete implements GlobalConst{
                 if (scanned_edge.getLabel().equals(edgeLabel)) {
                     //delete the edge
                     edgeFound = true;
-                    boolean delStatus = ehf.deleteEdge(eid);
+                    boolean delStatus = systemdef.JavabaseDB.deleteEdgeFromGraphDB(eid);
                     delCount++;
                 }
 
@@ -65,10 +66,10 @@ public class batchedgedelete implements GlobalConst{
 
         }
 
-        res[0] = phase2.getNodeCnt();
-        res[1] = phase2.getEdgeCnt();
-        res[2] = phase2.getNoOfReads();
-        res[3] = phase2.getNoOfWrites();
+        res[0] = systemdef.JavabaseDB.getNodeCnt();
+        res[1] = systemdef.JavabaseDB.getEdgeCnt();
+        res[2] = systemdef.JavabaseDB.getNoOfReads();
+        res[3] = systemdef.JavabaseDB.getNoOfWrites();
         System.out.println("Node count = " + res[0]);
         System.out.println("Edge count = " + res[1]);
         System.out.println("Disk pages read =" + res[2]);

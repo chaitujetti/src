@@ -34,7 +34,7 @@ public class batchnodeinsert extends TestDriver implements GlobalConst
             InvalidSlotNumberException,InvalidTupleSizeException,SpaceNotAvailableException,btree.AddFileEntryException,btree.GetFileEntryException,
             btree.ConstructPageException,ztree.GetFileEntryException,ztree.AddFileEntryException,ztree.ConstructPageException,Exception
     {
-        int[] res = new int[]{0,0,0,0};
+        int[] res = new int[]{0,0,0,0,0};
         boolean status = false;
 //        GraphDB phase2 = new GraphDB(0);
 //        phase2.openDB(dbname,1000);
@@ -81,10 +81,15 @@ public class batchnodeinsert extends TestDriver implements GlobalConst
         //get the pages write count
         res[3] = systemdef.JavabaseDB.getNoOfWrites();
 
+        //get node labels count
+        res[4]=systemdef.JavabaseDB.getLabelCnt();
+
+
         System.out.println("Node count = "+ res[0]);
         System.out.println("Edge count = "+ res[1]);
         System.out.println("Disk pages read ="+ res[2]);
         System.out.println("Disk pages written ="+ res[3]);
+        System.out.println("Unique labels in the file ="+ res[4]);
 
         if(counter == content.size())
             return true;

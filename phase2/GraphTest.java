@@ -91,7 +91,7 @@ class GraphDriver {
                             systemdef.JavabaseDB.createIndexFiles(varargs[1]);
                             dbcreated=true;
                         }
-                        status = batchnodedelete.nodedelete(varargs[0],varargs[1]);
+                        status = batchnodedelete.nodedelete(varargs[0],varargs[1],systemdef);
                         if(status == true )
                             System.out.println("Batch Insert Node successful");
                         else
@@ -102,7 +102,7 @@ class GraphDriver {
                         System.out.print(" Enter NODEFILENAME GRAPHDBNAME :-");
                         inp = scanner.nextLine();
                         varargs = inp.split(" ");
-                        status = batchedgedelete.edgedelete(varargs[0],varargs[1]);
+                        status = batchedgedelete.edgedelete(varargs[0],varargs[1],systemdef);
                         if(dbcreated!=true)
                         {
                             systemdef=new SystemDefs(varargs[1],1000,256,"Clock");
