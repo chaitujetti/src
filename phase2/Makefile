@@ -1,5 +1,5 @@
 # modify the paths appropriately
-JDKPATH = /usr/lib/jvm/java-8-openjdk-amd64
+JDKPATH = /Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home
 LIBPATH = .:..
 CLASSPATH = $(LIBPATH)
 BINPATH = $(JDKPATH)/bin
