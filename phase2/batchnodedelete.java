@@ -1,10 +1,7 @@
 package phase2;
 
 import diskmgr.*;
-import global.Descriptor;
-import global.EID;
-import global.GlobalConst;
-import global.NID;
+import global.*;
 import heap.*;
 
 import java.io.BufferedReader;
@@ -20,11 +17,11 @@ import java.util.Scanner;
  * Created by joelmascarenhas on 3/11/17.
  */
 public class batchnodedelete implements GlobalConst{
-    static boolean nodedelete(String filename,String dbname)
+    static boolean nodedelete(String filename, String dbname, SystemDefs systemdef)
             throws Exception {
-        int[] res = new int[]{0,0,0,0,0};
-        GraphDB phase2 = new GraphDB();
-        phase2.openDB(dbname,1024);
+        int[] res = new int[]{0,0,0,0,0,0};
+//        GraphDB phase2 = new GraphDB();
+//        phase2.openDB(dbname,1024);
         int counter = 0;
         List<String> content = new ArrayList<>();
 
@@ -36,7 +33,7 @@ public class batchnodedelete implements GlobalConst{
         }
 
         for (int i=0;i<content.size();i++) {
-            NScan nodescan = phase2.getNhf().openScan();
+            NScan nodescan = systemdef.JavabaseDB.getNhf().openScan();
             NID start_nid = new NID();
             NID delnid = new NID();
             Node current_node;
@@ -52,7 +49,7 @@ public class batchnodedelete implements GlobalConst{
                 }
             }
 
-            EScan edgescan = phase2.getEhf().openScan();
+            EScan edgescan = systemdef.JavabaseDB.getEhf().openScan();
             EID start_eid = new EID();
             List<EID> edgesToBeDeleted = new ArrayList<>();
             Edge current_edge;
@@ -68,29 +65,32 @@ public class batchnodedelete implements GlobalConst{
             }
             boolean edgedelstatus;
             for(EID a:edgesToBeDeleted)
-                edgedelstatus = phase2.getEhf().deleteEdge(a);
+                edgedelstatus = systemdef.JavabaseDB.deleteEdgeFromGraphDB(a);
 
-            boolean stat = phase2.getNhf().deleteNode(delnid);
+            boolean stat = systemdef.JavabaseDB.deleteNodeFromGraphDB(delnid);
             counter++;
 
         }
         // get the node count
-        res[0] = phase2.getNodeCnt();
+        res[0] = systemdef.JavabaseDB.getNodeCnt();
 
         // get the edge count
-        res[1] = phase2.getEdgeCnt();
+        res[1] = systemdef.JavabaseDB.getEdgeCnt();
 
         // get the pages read count
-        res[2] = phase2.getNoOfReads();
+        res[2] = systemdef.JavabaseDB.getNoOfReads();
         // PCounter.getRcounter();
 
         //get the pages write count
-        res[3] = phase2.getNoOfWrites();
+        res[3] = systemdef.JavabaseDB.getNoOfWrites();
+
+        res[5]=systemdef.JavabaseDB.getLabelCnt();
 
         System.out.println("Node count = " + res[0]);
         System.out.println("Edge count = " + res[1]);
         System.out.println("Disk pages read =" + res[2]);
         System.out.println("Disk pages written =" + res[3]);
+        System.out.println("Unique labels in the file ="+ res[4]);
 
         if(counter == content.size())
             return true;

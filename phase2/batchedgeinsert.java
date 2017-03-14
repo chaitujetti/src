@@ -104,10 +104,15 @@ public class batchedgeinsert implements GlobalConst
         //get the pages write count
         res[3] = systemdef.JavabaseDB.getNoOfWrites();
 
+        //get node labels count
+        res[4]=systemdef.JavabaseDB.getLabelCnt();
+
+
         System.out.println("Node count = "+ res[0]);
         System.out.println("Edge count = "+ res[1]);
         System.out.println("Disk pages read ="+ res[2]);
         System.out.println("Disk pages written ="+ res[3]);
+        System.out.println("Unique labels in the file ="+ res[4]);
 
         if(counter == content.size())
             return true;

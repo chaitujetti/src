@@ -84,8 +84,8 @@ public class GraphDB extends DB
                     HFBufMgrException,HFDiskMgrException,GetFileEntryException,ConstructPageException,IOException, ztree.AddFileEntryException,
                     btree.AddFileEntryException,ztree.GetFileEntryException,ztree.ConstructPageException
             {
-                nhf=new NodeHeapfile(null);
-                ehf=new EdgeHeapfile(null);
+                nhf=new NodeHeapfile("NodeHeapFile_"+DBname);
+                ehf=new EdgeHeapfile("EdgeHeapFile_"+DBname);
                 nodeLabels_BFile=new BTreeFile("NodeLabelsBtree_"+DBname,AttrType.attrString,100,1);
                 edgeLabels_BFile=new BTreeFile("EdgeLabelsBtree_"+DBname,AttrType.attrString,100,1);
                 edgeSourceLabels_BFile=new BTreeFile("EdgeSourceLabelsBtree_"+DBname,AttrType.attrString,100,1);
@@ -211,7 +211,43 @@ public class GraphDB extends DB
                 Node source=nhf.getNode(sourceNID);
                 Node destination=nhf.getNode(destinationNID);
                 insertEdgeIntoIndex(eid,edge,source,destination);
-                updateNodeLabels(edge.getLabel(),0);//insert node
+                //updateNodeLabels(edge.getLabel(),0);//insert node
+                updateEdgeNodeLabels(sourceNID,hashSourceNodesPresent,0);
+                updateEdgeNodeLabels(destinationNID,hashDestinationNodesPresent,0);
+            }
+
+            public boolean deleteNodeFromGraphDB(NID nid) throws Exception
+            {
+                try {
+                    nhf.deleteNode(nid);
+                    Node node = nhf.getNode(nid);
+                    System.out.println(node.getLabel());
+                    deleteNodeFromIndex(nid, node);
+                    updateNodeLabels(node.getLabel(), 1);
+                }
+                catch (Exception e){
+                    return false;
+                }
+                return false;
+            }
+
+            public boolean deleteEdgeFromGraphDB(EID eid) throws  Exception
+            {
+                try {
+                    ehf.deleteEdge(eid);
+                    Edge edge = ehf.getEdge(eid);
+                    NID sourceNID = edge.getSource();
+                    NID destinationNID = edge.getDestination();
+                    Node source = nhf.getNode(sourceNID);
+                    Node destination = nhf.getNode(destinationNID);
+                    deleteEdgeFromIndex(eid, edge, source, destination);
+                    updateEdgeNodeLabels(sourceNID, hashSourceNodesPresent, 1);
+                    updateEdgeNodeLabels(destinationNID, hashDestinationNodesPresent, 1);
+                    return true;
+                }
+                catch (Exception e){
+                    return false;
+                }
             }
 
             public void insertEdgeIntoIndex(EID eid,Edge edge,Node source,Node destination) throws KeyTooLongException,KeyNotMatchException, LeafInsertRecException, IndexInsertRecException, ConstructPageException, UnpinPageException,
