@@ -118,7 +118,7 @@ public class Edge extends Tuple {
     }
 
 
-    public void print(AttrType type[]) throws IOException
+    public void print() throws IOException
     {
         System.out.print("[");
         System.out.print("edge label : "+this.label);

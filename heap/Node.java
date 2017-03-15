@@ -56,14 +56,11 @@ public class Node extends Tuple
 
     public Descriptor getDesc() throws IOException, FieldNumberOutOfBoundException
     {
-        //Descriptor desc=Convert.getDescValue(fldOffset[1],data)
-        //return desc;
         return this.attrDesc;
     }
 
     public Node setLabel(String label) throws IOException, FieldNumberOutOfBoundException
     {
-        //Convert.setStrValue (label, fldOffset[0], data);
         this.label = label;
         Convert.setStrValue(this.label,0,data);
         tuple_length = getLength();
@@ -72,7 +69,6 @@ public class Node extends Tuple
 
     public Node setDesc(Descriptor desc) throws IOException, FieldNumberOutOfBoundException
     {
-        //Convert.setDescValue(desc,fldOffset[1], data);
         this.attrDesc = desc;
         Convert.setDescValue(this.attrDesc,10,data);
         tuple_length = getLength();
@@ -85,7 +81,7 @@ public class Node extends Tuple
     public void print() throws IOException, FieldNumberOutOfBoundException
     {
         System.out.print("[Label: "+ this.label);
-        System.out.print(", Descriptors: "+ this.attrDesc.value[0] + ", " + this.attrDesc.value[1] + ", " + this.attrDesc.value[2] + ", " + this.attrDesc.value[3] + ", " + this.attrDesc.value[4] +"]\n"); //Make Descriptor get function public
+        System.out.print(", Descriptors: "+ this.attrDesc.get(0) + ", " + this.attrDesc.get(1) + ", " + this.attrDesc.get(2) + ", " + this.attrDesc.get(3) + ", " + this.attrDesc.get(4) +"]\n"); //Make Descriptor get function public
     }
 
     public short size()
@@ -97,8 +93,6 @@ public class Node extends Tuple
     {
         byte [] temparray = fromNode.getTupleByteArray();
         System.arraycopy(temparray, 0,data, super.getTupleOffset(),super.getTupleLength());
-//       fldCnt = fromTuple.noOfFlds();
-//       fldOffset = fromTuple.copyFldOffset();
     }
 
     public void nodeInit(byte [] anode, int offset)
