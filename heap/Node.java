@@ -85,7 +85,7 @@ public class Node extends Tuple
     public void print() throws IOException, FieldNumberOutOfBoundException
     {
         System.out.print("[Label: "+ this.label);
-        System.out.print(", Descriptors: "+ this.attrDesc+"]\n"); //Make Descriptor get function public
+        System.out.print(", Descriptors: "+ this.attrDesc.value[0] + ", " + this.attrDesc.value[1] + ", " + this.attrDesc.value[2] + ", " + this.attrDesc.value[3] + ", " + this.attrDesc.value[4] +"]\n"); //Make Descriptor get function public
     }
 
     public short size()
