@@ -19,8 +19,8 @@ public class Node extends Tuple
 
     public Node(Tuple tuple) throws IOException {
         this.data = tuple.data;
-        this.attrDesc = Convert.getDescValue(Node.MAX_SIZE+2,tuple.data);
-        this.label = Convert.getStrValue(0,tuple.data,Node.MAX_SIZE+2);
+        this.attrDesc = Convert.getDescValue(10,tuple.data);
+        this.label = Convert.getStrValue(0,tuple.data,10);
     }
 
     public Node(Node fromNode)
@@ -74,12 +74,12 @@ public class Node extends Tuple
     {
         //Convert.setDescValue(desc,fldOffset[1], data);
         this.attrDesc = desc;
-        Convert.setDescValue(this.attrDesc,MAX_SIZE+2,data);
+        Convert.setDescValue(this.attrDesc,10,data);
         tuple_length = getLength();
         return this;
     }
     public int getLength() {
-        return 12 + MAX_SIZE;
+        return 20;
     }
 
     public void print() throws IOException, FieldNumberOutOfBoundException

@@ -43,16 +43,16 @@ public class Edge extends Tuple {
         if (tuple != null) {
             
             this.data = tuple.data;
-            this.label = Convert.getStrValue(0, this.data, Edge.MAX_SIZE + 2);
+            this.label = Convert.getStrValue(0, this.data, 10);
             NID srcId = new NID();
-            srcId.pageNo.pid = Convert.getIntValue(Edge.MAX_SIZE + 2, this.data);
-            srcId.slotNo = Convert.getIntValue(Edge.MAX_SIZE + 2 + 4, this.data);
+            srcId.pageNo.pid = Convert.getIntValue(10, this.data);
+            srcId.slotNo = Convert.getIntValue(14, this.data);
             this.source = srcId;
             NID destId = new NID();
-            destId.pageNo.pid = Convert.getIntValue(Edge.MAX_SIZE + 2 + 4 + 4, this.data);
-            destId.slotNo = Convert.getIntValue(Edge.MAX_SIZE + 2 + 4 + 4 + 4, this.data);
+            destId.pageNo.pid = Convert.getIntValue(18, this.data);
+            destId.slotNo = Convert.getIntValue(22, this.data);
             this.destination = destId;
-            this.weight = Convert.getIntValue(Edge.MAX_SIZE + 2 + 4 + 4 + 4 + 4, this.data);
+            this.weight = Convert.getIntValue(26, this.data);
 
         }
     }
@@ -79,7 +79,7 @@ public class Edge extends Tuple {
     }
 
     private int getEdgeLength() {
-        return (MAX_SIZE+2) + 4+4 +4+4 +4;
+        return 30;
 
     }
 
@@ -98,22 +98,22 @@ public class Edge extends Tuple {
     public Edge setWeight(int Weight) throws IOException {
         this.weight=Weight;
         
-        Convert.setIntValue(weight, MAX_SIZE+2+4+4+4+4, data);
+        Convert.setIntValue(weight, 26, data);
         tuple_length = getEdgeLength();
         return this;
     }
     public Edge setSource(NID source) throws IOException {
         this.source=source;
-        source.pageNo.writeToByteArray(data, MAX_SIZE+2);
-        Convert.setIntValue(source.slotNo, MAX_SIZE+2+4, data);
+        source.pageNo.writeToByteArray(data, 10);
+        Convert.setIntValue(source.slotNo, 14, data);
         tuple_length = getEdgeLength();
         return this;
     }
 
     public Edge setDestination(NID dest) throws IOException {
         destination=dest;
-        destination.pageNo.writeToByteArray(data, MAX_SIZE+2+4+4);
-        Convert.setIntValue(destination.slotNo, MAX_SIZE+2+4+4+4, data);
+        destination.pageNo.writeToByteArray(data, 18);
+        Convert.setIntValue(destination.slotNo, 22, data);
         return this;
     }
 

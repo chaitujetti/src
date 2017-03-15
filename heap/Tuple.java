@@ -43,7 +43,6 @@ public class Tuple implements GlobalConst{
 
     protected short [] fldOffset;
 
-    public static final int MAX_SIZE = 10;
     /**
      * Class constructor
      * Creat a new tuple with length = max_size,tuple offset = 0.

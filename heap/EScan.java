@@ -56,17 +56,17 @@ public class EScan extends Scan{
         
         if(tuple!=null){
             Edge edge = new Edge(tuple.data, 0);
-            String edgelabel = Convert.getStrValue(0, edge.data, Edge.MAX_SIZE+2);
+            String edgelabel = Convert.getStrValue(0, edge.data, 10);
 
             NID source = new NID();
-            source.pageNo.pid = Convert.getIntValue(Edge.MAX_SIZE+2, edge.data);
-            source.slotNo=Convert.getIntValue(Edge.MAX_SIZE+2+4, edge.data);
+            source.pageNo.pid = Convert.getIntValue(10, edge.data);
+            source.slotNo=Convert.getIntValue(14, edge.data);
             
             NID destination = new NID();
-            destination.pageNo.pid = Convert.getIntValue(Edge.MAX_SIZE+2+4+4, edge.data);
-            destination.slotNo=Convert.getIntValue(Edge.MAX_SIZE+2+4+4+4, edge.data);
+            destination.pageNo.pid = Convert.getIntValue(18, edge.data);
+            destination.slotNo=Convert.getIntValue(22, edge.data);
             
-            int weight=Convert.getIntValue(Edge.MAX_SIZE+2+4+4+4+4, edge.data);
+            int weight=Convert.getIntValue(26, edge.data);
             
             edge.setLabel(edgelabel);
             edge.setSource(source);
