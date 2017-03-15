@@ -20,11 +20,9 @@ public class batchnodedelete implements GlobalConst{
     static boolean nodedelete(String filename, String dbname, SystemDefs systemdef)
             throws Exception {
         int[] res = new int[]{0,0,0,0,0,0};
-//        GraphDB phase2 = new GraphDB();
-//        phase2.openDB(dbname,1024);
         int counter = 0;
+        System.out.println(filename);
         List<String> content = new ArrayList<>();
-
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String lineread;
             while ((lineread = br.readLine()) != null) {
@@ -40,33 +38,35 @@ public class batchnodedelete implements GlobalConst{
             boolean delnode = false;
 
             String temp = content.get(i);
-
             while (!delnode) {
                 current_node = nodescan.getNext(start_nid);
                 if (current_node.getLabel().equals(temp)) {
                     delnode = true;
-                    delnid = start_nid;
+                    delnid.copyRid(start_nid);
                 }
             }
 
             EScan edgescan = systemdef.JavabaseDB.getEhf().openScan();
             EID start_eid = new EID();
+            EID deleid = new EID();
             List<EID> edgesToBeDeleted = new ArrayList<>();
             Edge current_edge;
+            boolean edgedelstatus;
             current_edge = edgescan.getNext(start_eid);
-            NID src;
-            NID dest;
+            NID src = new NID();
+            Node sourcenode;
+            Node destnode;
+
+            NID dest = new NID();
             while(current_edge != null)
             {
-                src = current_edge.getSource();
-                dest = current_edge.getDestination();
-                if(delnid.equals(src) || delnid.equals(dest))
-                    edgesToBeDeleted.add(start_eid);
+                if(current_edge.getSource().equals(delnid) || current_edge.getDestination().equals(delnid)){
+                    deleid.copyRid(start_eid);
+                    edgedelstatus = systemdef.JavabaseDB.deleteEdgeFromGraphDB(deleid);
+                }
+                current_edge = edgescan.getNext(start_eid);
             }
-            boolean edgedelstatus;
-            for(EID a:edgesToBeDeleted)
-                edgedelstatus = systemdef.JavabaseDB.deleteEdgeFromGraphDB(a);
-
+            
             boolean stat = systemdef.JavabaseDB.deleteNodeFromGraphDB(delnid);
             counter++;
 

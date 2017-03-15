@@ -65,12 +65,12 @@ public class batchedgeinsert implements GlobalConst
                 if(current_node.getLabel().equals(temp[0]))
                 {
                     source_present = true;
-                    source_nid = start_nid;
+                    source_nid = new NID(new PageId(start_nid.pageNo.pid), start_nid.slotNo);
                 }
                 if(current_node.getLabel().equals(temp[1]))
                 {
                     dest_present = true;
-                    dest_nid = start_nid;
+                    dest_nid = new NID(new PageId(start_nid.pageNo.pid), start_nid.slotNo);
                 }
             }
             if(source_present == false)

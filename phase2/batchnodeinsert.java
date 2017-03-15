@@ -34,14 +34,11 @@ public class batchnodeinsert extends TestDriver implements GlobalConst
             InvalidSlotNumberException,InvalidTupleSizeException,SpaceNotAvailableException,btree.AddFileEntryException,btree.GetFileEntryException,
             btree.ConstructPageException,ztree.GetFileEntryException,ztree.AddFileEntryException,ztree.ConstructPageException,Exception
     {
+        
         int[] res = new int[]{0,0,0,0,0};
+        int counter = 0;
+        System.out.println(filename);
         boolean status = false;
-//        GraphDB phase2 = new GraphDB(0);
-//        phase2.openDB(dbname,1000);
-
-//        SystemDefs systemdef=new SystemDefs(dbname,1000,256,"Clock");
-//        systemdef.JavabaseDB.createIndexFiles(dbname);
-        //List<String> content = Files.readAllLines(Paths.get(filename));
         List<String> content = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String lineread;
@@ -52,7 +49,6 @@ public class batchnodeinsert extends TestDriver implements GlobalConst
 
         Node iterator = new Node();
         NID nid = new NID();
-        int counter = 0;
         Descriptor desc = new Descriptor();
 
         for(int i=0;i<content.size();i++)

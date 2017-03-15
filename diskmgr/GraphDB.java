@@ -219,11 +219,10 @@ public class GraphDB extends DB
             public boolean deleteNodeFromGraphDB(NID nid) throws Exception
             {
                 try {
-                    nhf.deleteNode(nid);
                     Node node = nhf.getNode(nid);
-                    System.out.println(node.getLabel());
                     deleteNodeFromIndex(nid, node);
                     updateNodeLabels(node.getLabel(), 1);
+                    nhf.deleteNode(nid);
                 }
                 catch (Exception e){
                     return false;
@@ -234,7 +233,6 @@ public class GraphDB extends DB
             public boolean deleteEdgeFromGraphDB(EID eid) throws  Exception
             {
                 try {
-                    ehf.deleteEdge(eid);
                     Edge edge = ehf.getEdge(eid);
                     NID sourceNID = edge.getSource();
                     NID destinationNID = edge.getDestination();
@@ -243,6 +241,7 @@ public class GraphDB extends DB
                     deleteEdgeFromIndex(eid, edge, source, destination);
                     updateEdgeNodeLabels(sourceNID, hashSourceNodesPresent, 1);
                     updateEdgeNodeLabels(destinationNID, hashDestinationNodesPresent, 1);
+                    ehf.deleteEdge(eid);
                     return true;
                 }
                 catch (Exception e){

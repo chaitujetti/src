@@ -24,16 +24,9 @@ public class batchedgedelete implements GlobalConst{
 
     static boolean edgedelete(String filename, String dbname, SystemDefs systemdef)
             throws Exception {
-        int[] res = new int[]{0, 0, 0, 0};
-        boolean status = false;
-//        GraphDB phase2 = new GraphDB(0);
-//        phase2.openDB(dbname, 1000);
-//        EID edgeId = new EID();
-//        EdgeHeapfile ehf = phase2.getEhf();
-        Edge scanned_edge;
-        int delCount = 0;
-
-        //List<String> content = Files.readAllLines(Paths.get(filename));
+        int[] res = new int[]{0,0,0,0,0,0};
+        int counter = 0;
+        System.out.println(filename);
         List<String> content = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String lineread;
@@ -42,43 +35,55 @@ public class batchedgedelete implements GlobalConst{
             }
         }
 
-        for (int i = 0; i < content.size(); i++) {
+        for (int i=0;i<content.size();i++) {
             String[] temp = content.get(i).split(" ");
             String edgeLabel = temp[2];
-            EScan edgeScan = systemdef.JavabaseDB.getEhf().openScan();
-            EID eid = new EID();
-            EID eidToDelete = new EID();
+            EScan edgescan = systemdef.JavabaseDB.getEhf().openScan();
+            EID start_eid = new EID();
+            EID deleid = new EID();
+            Edge current_edge = new Edge();
+            boolean deledge = false;
 
-            //scanned_edge = edgeScan.getNext(eid);
-            boolean edgeFound = false;
-            while (edgeFound == false) {
-                scanned_edge = edgeScan.getNext(eid);
-
-                if (scanned_edge.getLabel().equals(edgeLabel)) {
-                    //delete the edge
-                    edgeFound = true;
-                    boolean delStatus = systemdef.JavabaseDB.deleteEdgeFromGraphDB(eid);
-                    delCount++;
+            System.out.println(edgeLabel);
+                
+            while (!deledge) {
+                current_edge = edgescan.getNext(start_eid);
+                if(edgeLabel == "7_473"){
+                    System.out.println(current_edge.getLabel());
                 }
-
-
+                // System.out.println(current_edge.getLabel());
+                if (current_edge.getLabel().equals(edgeLabel)) {
+                    deledge = true;
+                    deleid.copyRid(start_eid);
+                }
             }
+            boolean stat = systemdef.JavabaseDB.deleteEdgeFromGraphDB(deleid);
+            counter++;
 
         }
-
+        // get the node count
         res[0] = systemdef.JavabaseDB.getNodeCnt();
+
+        // get the edge count
         res[1] = systemdef.JavabaseDB.getEdgeCnt();
+
+        // get the pages read count
         res[2] = systemdef.JavabaseDB.getNoOfReads();
+        // PCounter.getRcounter();
+
+        //get the pages write count
         res[3] = systemdef.JavabaseDB.getNoOfWrites();
+
+        res[5]=systemdef.JavabaseDB.getLabelCnt();
+
         System.out.println("Node count = " + res[0]);
         System.out.println("Edge count = " + res[1]);
         System.out.println("Disk pages read =" + res[2]);
         System.out.println("Disk pages written =" + res[3]);
+        System.out.println("Unique labels in the file ="+ res[4]);
 
-        if (content.size() == delCount) {
+        if(counter == content.size())
             return true;
-        }
-        return false;
-
+        else return false;
     }
 }
