@@ -181,14 +181,20 @@ public class task15_0 implements GlobalConst
                 {
                     break;
                 }
-                LeafData leafNode=(LeafData)entry.data;
-                RID rid=leafNode.getData();
-                EID eid=new EID();
-                eid.pageNo.pid=rid.pageNo.pid;
-                eid.slotNo=rid.slotNo;
-                Edge edge=ehf.getEdge(eid);
-                edge.print();
-                System.out.println();
+                try
+                {
+                    LeafData leafNode=(LeafData)entry.data;
+                    RID rid=leafNode.getData();
+                    EID eid=new EID();
+                    eid.pageNo.pid=rid.pageNo.pid;
+                    eid.slotNo=rid.slotNo;
+                    Edge edge=ehf.getEdge(eid);
+                    edge.print();
+                    System.out.println();
+                }
+                catch(Exception e){
+                    System.out.println("Record at given slot has been deleted");
+                }
             }
         }
     }
@@ -218,14 +224,21 @@ public class task15_0 implements GlobalConst
                 {
                     break;
                 }
-                LeafData leafNode=(LeafData)entry.data;
-                RID rid=leafNode.getData();
-                EID eid=new EID();
-                eid.pageNo.pid=rid.pageNo.pid;
-                eid.slotNo=rid.slotNo;
-                Edge edge=ehf.getEdge(eid);
-                edge.print();
-                System.out.println();
+                try
+                {
+                    LeafData leafNode=(LeafData)entry.data;
+                    RID rid=leafNode.getData();
+                    EID eid=new EID();
+                    eid.pageNo.pid=rid.pageNo.pid;
+                    eid.slotNo=rid.slotNo;
+                    Edge edge=ehf.getEdge(eid);
+                    edge.print();
+                    System.out.println();
+                }
+                catch(Exception e)
+                {
+                    System.out.println("Record at given slot has been deleted");
+                }
             }
 
         }
@@ -286,6 +299,7 @@ public class task15_0 implements GlobalConst
         {
             List<Node> allNodes=getNodesFromHeapFile(systemdef.JavabaseDB);
             BTreeFile btree_Source=systemdef.JavabaseDB.edgeSourceLabels_BFile;
+            BTreeFile btree_Destn=systemdef.JavabaseDB.edgeDestinationLabels_BFile;
             for(int i=0;i<allNodes.size();i++)
             {
                 Node node=allNodes.get(i);
@@ -299,16 +313,25 @@ public class task15_0 implements GlobalConst
                     {
                         break;
                     }
-                    LeafData leafNode=(LeafData)entry.data;
-                    RID rid=leafNode.getData();
-                    EID eid=new EID();
-                    eid.pageNo.pid=rid.pageNo.pid;
-                    eid.slotNo=rid.slotNo;
-                    Edge edge=ehf.getEdge(eid);
-                    edge.print();
-                    System.out.println();
+                    try
+                    {
+                        LeafData leafNode=(LeafData)entry.data;
+                        RID rid=leafNode.getData();
+                        EID eid=new EID();
+                        eid.pageNo.pid=rid.pageNo.pid;
+                        eid.slotNo=rid.slotNo;
+                        Edge edge=ehf.getEdge(eid);
+                        edge.print();
+                        System.out.println();
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Record at given slot has been deleted");
+                    }
+
                 }
-                BTreeFile btree_Destn=systemdef.JavabaseDB.edgeDestinationLabels_BFile;
+
+                btscan=btree_Destn.new_scan(new StringKey(node.getLabel()),new StringKey(node.getLabel()));
                 while (true)
                 {
                     entry=btscan.get_next();
@@ -316,21 +339,26 @@ public class task15_0 implements GlobalConst
                     {
                         break;
                     }
-                    LeafData leafNode=(LeafData)entry.data;
-                    RID rid=leafNode.getData();
-                    EID eid=new EID();
-                    eid.pageNo.pid=rid.pageNo.pid;
-                    eid.slotNo=rid.slotNo;
-                    Edge edge=ehf.getEdge(eid);
-                    edge.print();
-                    System.out.println();
+                    try
+                    {
+                        LeafData leafNode=(LeafData)entry.data;
+                        RID rid=leafNode.getData();
+                        EID eid=new EID();
+                        eid.pageNo.pid=rid.pageNo.pid;
+                        eid.slotNo=rid.slotNo;
+                        Edge edge=ehf.getEdge(eid);
+                        edge.print();
+                        System.out.println();
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Record at given slot has been deleted");
+                    }
                 }
-
 
             }
 
         }
-
 
     }
 

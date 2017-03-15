@@ -5,9 +5,9 @@ import diskmgr.*;
 import bufmgr.*;
 import global.*;
 import heap.*;
-import ztree.ZTreeFile;
-import zindex.*;
-import ztree.*;
+// import ztree.ZTreeFile;
+// import zindex.*;
+// import ztree.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -143,14 +143,21 @@ public class Task14 implements GlobalConst
                 {
                     break;
                 }
-                btree.LeafData leafNode=(btree.LeafData)entry.data;
-                RID rid=leafNode.getData();
-                NID nid=new NID();
-                nid.pageNo.pid=rid.pageNo.pid;
-                nid.slotNo=rid.slotNo;
-                Node node=nhf.getNode(nid);
-                node.print();
-                System.out.println();
+                try
+                {
+                    btree.LeafData leafNode=(btree.LeafData)entry.data;
+                    RID rid=leafNode.getData();
+                    NID nid=new NID();
+                    nid.pageNo.pid=rid.pageNo.pid;
+                    nid.slotNo=rid.slotNo;
+                    Node node=nhf.getNode(nid);
+                    node.print();
+                    System.out.println();
+                }
+                catch(Exception e)
+                {
+                    System.out.println("Record at given slot has been deleted");
+                }
             }
         }
     }
@@ -290,14 +297,21 @@ public class Task14 implements GlobalConst
                 System.out.println("No node with the given label is present");
                 return;
             }
-            btree.LeafData leafNode=(btree.LeafData)desiredNodeData.data;
-            RID rid=leafNode.getData();
-            NID nid=new NID();
-            nid.pageNo.pid=rid.pageNo.pid;
-            nid.slotNo=rid.slotNo;
-            Node node=nhf.getNode(nid);
-            node.print();
-            System.out.println();
+            try
+            {
+                btree.LeafData leafNode=(btree.LeafData)desiredNodeData.data;
+                RID rid=leafNode.getData();
+                NID nid=new NID();
+                nid.pageNo.pid=rid.pageNo.pid;
+                nid.slotNo=rid.slotNo;
+                Node node=nhf.getNode(nid);
+                node.print();
+                System.out.println();
+            }
+            catch(Exception e)
+            {
+                System.out.println("Record at given slot has been deleted");
+            }
 
             //Outgoing edges
             System.out.println("Outgoing edges");
@@ -311,15 +325,22 @@ public class Task14 implements GlobalConst
                 {
                     break;
                 }
-                leafNode=(btree.LeafData)entry.data;
-                //EID eid=(EID)leafNode.getData();
-                rid=leafNode.getData();
-                EID eid=new EID();
-                eid.pageNo.pid=rid.pageNo.pid;
-                eid.slotNo=rid.slotNo;
-                Edge edge=ehf.getEdge(eid);
-                edge.print();
-                System.out.println();
+                try
+                {
+                    btree.LeafData leafNode=(btree.LeafData)entry.data;
+                    //EID eid=(EID)leafNode.getData();
+                    RID rid=leafNode.getData();
+                    EID eid=new EID();
+                    eid.pageNo.pid=rid.pageNo.pid;
+                    eid.slotNo=rid.slotNo;
+                    Edge edge=ehf.getEdge(eid);
+                    edge.print();
+                    System.out.println();
+                }
+                catch (Exception e)
+                {
+                    System.out.println("Record at given slot has been deleted");
+                }
             }
 
             //Incoming edges
@@ -333,15 +354,22 @@ public class Task14 implements GlobalConst
                 {
                     break;
                 }
-                leafNode=(btree.LeafData)entry.data;
-                //EID eid=(EID)leafNode.getData();
-                rid=leafNode.getData();
-                EID eid=new EID();
-                eid.pageNo.pid=rid.pageNo.pid;
-                eid.slotNo=rid.slotNo;
-                Edge edge=ehf.getEdge(eid);
-                edge.print();
-                System.out.println();
+                try
+                {
+                    btree.LeafData leafNode=(btree.LeafData)entry.data;
+                    //EID eid=(EID)leafNode.getData();
+                    RID rid=leafNode.getData();
+                    EID eid=new EID();
+                    eid.pageNo.pid=rid.pageNo.pid;
+                    eid.slotNo=rid.slotNo;
+                    Edge edge=ehf.getEdge(eid);
+                    edge.print();
+                    System.out.println();
+                }
+                catch(Exception e)
+                {
+                    System.out.println("Record at given slot has been deleted");
+                }
             }
         }
 

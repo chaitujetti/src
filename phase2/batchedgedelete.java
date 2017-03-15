@@ -43,9 +43,7 @@ public class batchedgedelete implements GlobalConst{
             EID deleid = new EID();
             Edge current_edge = new Edge();
             boolean deledge = false;
-
-            System.out.println(edgeLabel);
-                
+    
             while (!deledge) {
                 current_edge = edgescan.getNext(start_eid);
                 if(edgeLabel == "7_473"){
